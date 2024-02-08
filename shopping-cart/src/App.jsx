@@ -1,9 +1,9 @@
 import { useState } from 'react';
-// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
-import ShoppingCart from './components/ShoppingCart';
+import ShoppingCart from './pages/ShoppingCart';
 
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -33,12 +33,16 @@ const App = () => {
   const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <div className="App">
-      <NavBar cartItemCount={cartItemCount} />
-      <Home />
-      <Shop addToCart={addToCart} />  
-      <ShoppingCart cartItems={cartItems} />
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <NavBar cartItemCount={cartItemCount} />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/shop' element={<Shop addToCart={addToCart} /> } />
+          <Route path='/cart' element={<ShoppingCart cartItems={cartItems} />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 };
 
